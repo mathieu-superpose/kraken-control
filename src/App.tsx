@@ -1,17 +1,12 @@
 import { OrbitControls } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 
-import Lights from "./environment/Lights"
-import Cube from "./models/Cube"
-import Floor from "./models/Floor"
+import Scene from "./Scene"
 
 function App() {
   return (
     <Canvas shadows orthographic camera={{ position: [5, 5, 5], zoom: 100 }}>
-      <Lights />
-
-      <Floor />
-      <Cube />
+      <Scene />
 
       <OrbitControls makeDefault />
     </Canvas>
