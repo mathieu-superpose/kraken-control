@@ -1,9 +1,23 @@
-function Cube() {
+import { useFrame } from "@react-three/fiber"
+import { useRef } from "react"
+import * as THREE from "three"
+
+function Cube({ target }: { target: THREE.Vector3 }) {
+  const cubeRef = useRef<THREE.Group>(null)
+
+  useFrame((_state, delta) => {
+    if (!cubeRef?.current) return null
+
+    cubeRef.current.position.lerp(target, delta * 2)
+  })
+
   return (
-    <mesh castShadow receiveShadow position={[0.5, 0.5, -0.5]} >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color='red' />
-    </mesh>
+    <group ref={cubeRef}>
+      <mesh castShadow receiveShadow position={[0.5, 0.5, -0.5]} name="cube">
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color="red" />
+      </mesh>
+    </group>
   )
 }
 
