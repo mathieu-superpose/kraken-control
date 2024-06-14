@@ -12,3 +12,4 @@ Control a kraken arm over a delimited area with your mouse.
 
 - Bundler: [Vite](https://vitejs.dev/)
 - Library: [React](https://react.dev/)
+- 3d renderer: [React Three Fiber](https://docs.pmnd.rs/react-three-fiber/)
