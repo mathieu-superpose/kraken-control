@@ -6,21 +6,23 @@ import Lights from "./environment/Lights"
 import Cube from "./models/Cube"
 import Floor from "./models/Floor"
 
+import Arrow from "./models/Arrow"
+
 function Scene() {
   const pointer = new THREE.Vector2()
   const raycaster = new THREE.Raycaster()
   const target = new THREE.Vector3()
 
   useEffect(() => {
-    const onMouseMove = (e) => {
+    const onMouseMove = (e: MouseEvent) => {
       pointer.x = (e.clientX / window.innerWidth) * 2 - 1
       pointer.y = -(e.clientY / window.innerHeight) * 2 + 1
     }
 
-    window.addEventListener("mousemove", onMouseMove)
+    window.addEventListener("click", onMouseMove)
 
     return () => {
-      window.removeEventListener("mousemove", onMouseMove)
+      window.removeEventListener("click", onMouseMove)
     }
   })
 
@@ -31,7 +33,7 @@ function Scene() {
     if (intersects.length > 1) {
       for (const inter of intersects) {
         if (inter.object?.name === "floor") {
-          target.copy(inter.point)
+          target.copy({ x: inter.point.x, y: inter.point.y, z: inter.point.z })
         }
       }
     }
@@ -43,6 +45,8 @@ function Scene() {
 
       <Floor />
       <Cube target={target} />
+
+      <Arrow target={target} position={[2, 0.7, 2]} />
     </>
   )
 }
