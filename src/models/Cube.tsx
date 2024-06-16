@@ -12,8 +12,8 @@ function Cube({ target }: { target: THREE.Vector3 }) {
   })
 
   return (
-    <group ref={cubeRef}>
-      <mesh castShadow receiveShadow position={[0.5, 0.5, -0.5]} name="cube">
+    <group ref={cubeRef} name="cube">
+      <mesh castShadow receiveShadow position={[0, 0.5, 0]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color="red" />
       </mesh>

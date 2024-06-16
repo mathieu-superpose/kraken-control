@@ -20,13 +20,27 @@ function Arrow({ target }: { target: THREE.Vector3 }) {
     arrowRef.current.position.copy(target)
 
     // vertical mouvement
-    const verticalAdjust = Math.sin(elapsedTime * VERTICAL_SPEED) / VERICAL_AMPLITUDE_ADJUST
+    const verticalAdjust =
+      Math.sin(elapsedTime * VERTICAL_SPEED) / VERICAL_AMPLITUDE_ADJUST
     arrowRef.current.position.y = VERTICAL_HEIGHT + verticalAdjust
 
     // rotation mouvement
     if (verticalAdjust > 0) {
       arrowRef.current.rotation.y += delta * ROTATION_SPEED
     }
+
+    const cubePosition = state.scene.getObjectByName("cube")?.position
+
+    if (!cubePosition) return null
+
+    const distanceToCube = arrowRef.current.position.distanceTo(cubePosition)
+
+    if (distanceToCube < 1.5) {
+      arrowRef.current.visible = false
+    } else {
+      arrowRef.current.visible = true
+    }
+
   })
 
   return (
