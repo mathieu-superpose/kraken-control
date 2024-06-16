@@ -1,7 +1,8 @@
 import * as THREE from "three"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useGLTF, useAnimations } from "@react-three/drei"
 import { GLTF } from "three-stdlib"
+import { useFrame } from "@react-three/fiber"
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -21,17 +22,45 @@ type GLTFResult = GLTF & {
   materials: {
     lambert3SG: THREE.MeshStandardMaterial
   }
+  animations: GLTFAction[]
 }
 
 type ActionName = "Break"
-type GLTFActions = Record<ActionName, THREE.AnimationAction>
+
+interface GLTFAction extends THREE.AnimationClip {
+  name: ActionName
+}
+
+type TBoatStatus = "fishing" | "afraid" | "broken"
 
 const MODEL = "/models/boat.glb"
 
-function Boat() {
+function Boat({ status = "broken" }: { status: TBoatStatus }) {
   const group = useRef<THREE.Group>(null)
-  const { nodes, materials, animations } = useGLTF(MODEL) as GLTFResult
-  const { actions } = useAnimations<GLTFActions>(animations, group)
+  const { nodes, animations } = useGLTF(MODEL) as GLTFResult
+  const { actions, mixer } = useAnimations(animations, group)
+  const [broken, setBroken] = useState(true)
+
+  useEffect(() => {
+    if (status === "broken" && actions["Break"]) {
+      const animation = actions["Break"]
+      animation.setLoop(THREE.LoopOnce, 0)
+      animation.clampWhenFinished = true
+      animation.play()
+
+      mixer.addEventListener('finished', (e) => setBroken(true));
+    }
+  }, [status])
+
+  useFrame((state) => {
+    if(!group?.current) return null
+
+    const elapsedTime = state.clock.getElapsedTime()
+
+    if(broken) {
+      group.current.position.y = Math.sin(elapsedTime * 2) / 6
+    }
+  })
 
   return (
     <group ref={group} dispose={null} scale={0.2}>

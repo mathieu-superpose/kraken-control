@@ -6,9 +6,7 @@ import Lights from "./environment/Lights"
 import Background from "./environment/Background"
 import Cube from "./models/Cube"
 import Sea from "./models/Sea"
-
 import Arrow from "./models/Arrow"
-
 import Boat from "./models/Boat"
 
 function Scene() {
@@ -24,7 +22,7 @@ function Scene() {
       <Arrow target={target} visible={true} />
 
       <Suspense fallback={null}>
-        <Boat />
+        <Boat status="broken" />
       </Suspense>
     </>
   )
