@@ -48,16 +48,16 @@ function Boat({ status = "broken" }: { status: TBoatStatus }) {
       animation.clampWhenFinished = true
       animation.play()
 
-      mixer.addEventListener('finished', (e) => setBroken(true));
+      mixer.addEventListener("finished", () => setBroken(true))
     }
   }, [status])
 
   useFrame((state) => {
-    if(!group?.current) return null
+    if (!group?.current) return null
 
     const elapsedTime = state.clock.getElapsedTime()
 
-    if(broken) {
+    if (broken) {
       group.current.position.y = Math.sin(elapsedTime * 2) / 6
     }
   })
