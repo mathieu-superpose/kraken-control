@@ -3,6 +3,7 @@ import * as THREE from "three"
 import { useThree } from "@react-three/fiber"
 
 import Lights from "./environment/Lights"
+import Background from "./environment/Background"
 import Cube from "./models/Cube"
 import Sea from "./models/Sea"
 
@@ -47,6 +48,7 @@ function Scene() {
   return (
     <>
       <Lights />
+      <Background />
 
       <Sea />
       <Cube target={target} />
