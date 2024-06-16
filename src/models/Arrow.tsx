@@ -7,7 +7,13 @@ const VERICAL_AMPLITUDE_ADJUST = 10
 const VERTICAL_HEIGHT = 0.5
 const ROTATION_SPEED = 10
 
-function Arrow({ target }: { target: THREE.Vector3 }) {
+function Arrow({
+  target,
+  visible,
+}: {
+  target: THREE.Vector3
+  visible: boolean
+}) {
   const arrowRef = useRef<THREE.Group>(null)
   const arrowMaterial = new THREE.MeshStandardMaterial({ color: "white" })
 
@@ -35,12 +41,11 @@ function Arrow({ target }: { target: THREE.Vector3 }) {
 
     const distanceToCube = arrowRef.current.position.distanceTo(cubePosition)
 
-    if (distanceToCube < 1.5) {
+    if (!visible || distanceToCube < 1.5) {
       arrowRef.current.visible = false
     } else {
       arrowRef.current.visible = true
     }
-
   })
 
   return (

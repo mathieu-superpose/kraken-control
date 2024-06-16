@@ -1,6 +1,6 @@
-import { Suspense, useEffect } from "react"
-import * as THREE from "three"
-import { useThree } from "@react-three/fiber"
+import { Suspense } from "react"
+
+import { useTarget } from "./hooks/useTarget"
 
 import Lights from "./environment/Lights"
 import Background from "./environment/Background"
@@ -12,38 +12,7 @@ import Arrow from "./models/Arrow"
 import Boat from "./models/Boat"
 
 function Scene() {
-  const pointer = new THREE.Vector2()
-  const raycaster = new THREE.Raycaster()
-  const target = new THREE.Vector3()
-  const { camera, scene } = useThree()
-
-  useEffect(() => {
-    const onMouseDbClick = (e: MouseEvent) => {
-      pointer.x = (e.clientX / window.innerWidth) * 2 - 1
-      pointer.y = -(e.clientY / window.innerHeight) * 2 + 1
-
-      raycaster.setFromCamera(pointer, camera)
-      const intersects = raycaster.intersectObjects(scene.children)
-
-      if (intersects.length) {
-        for (const inter of intersects) {
-          if (inter.object?.name === "sea") {
-            target.copy({
-              x: inter.point.x,
-              y: inter.point.y,
-              z: inter.point.z,
-            })
-          }
-        }
-      }
-    }
-
-    window.addEventListener("dblclick", onMouseDbClick)
-
-    return () => {
-      window.removeEventListener("dblclick", onMouseDbClick)
-    }
-  })
+  const target = useTarget()
 
   return (
     <>
@@ -52,7 +21,7 @@ function Scene() {
 
       <Sea />
       <Cube target={target} />
-      <Arrow target={target} />
+      <Arrow target={target} visible={true} />
 
       <Suspense fallback={null}>
         <Boat />
