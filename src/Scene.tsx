@@ -4,7 +4,7 @@ import { useThree } from "@react-three/fiber"
 
 import Lights from "./environment/Lights"
 import Cube from "./models/Cube"
-import Floor from "./models/Floor"
+import Sea from "./models/Sea"
 
 import Arrow from "./models/Arrow"
 
@@ -24,9 +24,9 @@ function Scene() {
       raycaster.setFromCamera(pointer, camera)
       const intersects = raycaster.intersectObjects(scene.children)
 
-      if (intersects.length > 1) {
+      if (intersects.length) {
         for (const inter of intersects) {
-          if (inter.object?.name === "floor") {
+          if (inter.object?.name === "sea") {
             target.copy({
               x: inter.point.x,
               y: inter.point.y,
@@ -48,7 +48,7 @@ function Scene() {
     <>
       <Lights />
 
-      <Floor />
+      <Sea />
       <Cube target={target} />
       <Arrow target={target} />
 
