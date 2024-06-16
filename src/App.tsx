@@ -1,17 +1,23 @@
 import { OrbitControls } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 
-import Lights from "./environment/Lights"
-import Cube from "./models/Cube"
-import Floor from "./models/Floor"
+import Scene from "./Scene"
+
+const ORTHOGRAPHIC = false
 
 function App() {
-  return (
-    <Canvas shadows orthographic camera={{ position: [5, 5, 5], zoom: 100 }}>
-      <Lights />
+  if (ORTHOGRAPHIC)
+    return (
+      <Canvas shadows orthographic camera={{ position: [5, 5, 5], zoom: 100 }}>
+        <Scene />
 
-      <Floor />
-      <Cube />
+        <OrbitControls makeDefault />
+      </Canvas>
+    )
+
+  return (
+    <Canvas shadows camera={{ position: [5, 5, 5] }}>
+      <Scene />
 
       <OrbitControls makeDefault />
     </Canvas>
