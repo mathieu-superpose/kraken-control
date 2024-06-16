@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { Suspense, useEffect } from "react"
 import * as THREE from "three"
 import { useThree } from "@react-three/fiber"
 
@@ -7,6 +7,8 @@ import Cube from "./models/Cube"
 import Floor from "./models/Floor"
 
 import Arrow from "./models/Arrow"
+
+import Boat from "./models/Boat"
 
 function Scene() {
   const pointer = new THREE.Vector2()
@@ -49,6 +51,10 @@ function Scene() {
       <Floor />
       <Cube target={target} />
       <Arrow target={target} />
+
+      <Suspense fallback={null}>
+        <Boat />
+      </Suspense>
     </>
   )
 }
