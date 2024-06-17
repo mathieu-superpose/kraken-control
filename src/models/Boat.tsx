@@ -35,11 +35,16 @@ type TBoatStatus = "fishing" | "afraid" | "broken"
 
 const MODEL = "/models/boat.glb"
 
+const BOAT_RANGE = 7
+const FISHING_SPEED = 0.1
+
 function Boat({ status = "broken" }: { status: TBoatStatus }) {
   const group = useRef<THREE.Group>(null)
   const { nodes, animations } = useGLTF(MODEL) as GLTFResult
   const { actions, mixer } = useAnimations(animations, group)
-  const [broken, setBroken] = useState(true)
+  const [broken, setBroken] = useState(false)
+
+  const boatTarget = new THREE.Vector3(0, 0, 0)
 
   useEffect(() => {
     const switchBroken = () => setBroken(true)
@@ -61,6 +66,15 @@ function Boat({ status = "broken" }: { status: TBoatStatus }) {
 
     const elapsedTime = state.clock.getElapsedTime()
 
+    if (status === "fishing") {
+      group.current.position.x =
+        BOAT_RANGE * Math.sin(elapsedTime * FISHING_SPEED)
+
+      boatTarget.x = BOAT_RANGE * Math.sin((elapsedTime + 0.05) * FISHING_SPEED)
+
+      group.current.lookAt(boatTarget)
+    }
+
     if (broken) {
       group.current.position.y =
         Math.sin(elapsedTime * 1.5) / 8 - Math.sin(0.1 + elapsedTime * 5) / 23
@@ -69,7 +83,11 @@ function Boat({ status = "broken" }: { status: TBoatStatus }) {
 
   return (
     <group ref={group} dispose={null} scale={0.2} name="boat">
-      <group name="Scene">
+      <group
+        name="Scene"
+        position={[0, -0.5, 0]}
+        rotation={[0, -Math.PI / 2, 0]}
+      >
         <group name="Boat_Arm">
           <primitive object={nodes.Bone} />
         </group>

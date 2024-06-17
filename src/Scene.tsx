@@ -25,7 +25,7 @@ function Scene() {
       </Suspense>
 
       <Suspense fallback={null}>
-        <Boat status="broken" />
+        <Boat status="fishing" />
       </Suspense>
     </>
   )
