@@ -13,7 +13,7 @@ function App() {
     )
 
   return (
-    <Canvas shadows camera={{ position: [0, 2, 5] }}>
+    <Canvas shadows camera={{ position: [0, 2, 5], zoom: 1.5 }}>
       <Scene />
     </Canvas>
   )

@@ -35,11 +35,11 @@ function Arrow({
       arrowRef.current.rotation.y += delta * ROTATION_SPEED
     }
 
-    const cubePosition = state.scene.getObjectByName("cube")?.position
+    const krakenPosition = state.scene.getObjectByName("kraken")?.position
 
-    if (!cubePosition) return null
+    if (!krakenPosition) return null
 
-    const distanceToCube = arrowRef.current.position.distanceTo(cubePosition)
+    const distanceToCube = arrowRef.current.position.distanceTo(krakenPosition)
 
     if (!visible || distanceToCube < 1.5) {
       arrowRef.current.visible = false

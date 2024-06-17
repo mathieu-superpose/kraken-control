@@ -4,9 +4,9 @@ import { useTarget } from "./hooks/useTarget"
 
 import Lights from "./environment/Lights"
 import Background from "./environment/Background"
-import Cube from "./models/Cube"
 import Sea from "./models/Sea"
 import Arrow from "./models/Arrow"
+import Kraken from "./models/Kraken"
 import Boat from "./models/Boat"
 
 function Scene() {
@@ -18,8 +18,11 @@ function Scene() {
       <Background />
 
       <Sea />
-      <Cube target={target} />
       <Arrow target={target} visible={true} />
+
+      <Suspense fallback={null}>
+        <Kraken target={target}/>
+      </Suspense>
 
       <Suspense fallback={null}>
         <Boat status="broken" />

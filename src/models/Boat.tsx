@@ -42,13 +42,17 @@ function Boat({ status = "broken" }: { status: TBoatStatus }) {
   const [broken, setBroken] = useState(true)
 
   useEffect(() => {
+    const switchBroken = () => setBroken(true)
+
     if (status === "broken" && actions["Break"]) {
       const animation = actions["Break"]
       animation.setLoop(THREE.LoopOnce, 0)
       animation.clampWhenFinished = true
       animation.play()
 
-      mixer.addEventListener("finished", () => setBroken(true))
+      mixer.addEventListener("finished", switchBroken)
+
+      return () => mixer.removeEventListener("finished", switchBroken)
     }
   }, [status])
 
@@ -58,12 +62,13 @@ function Boat({ status = "broken" }: { status: TBoatStatus }) {
     const elapsedTime = state.clock.getElapsedTime()
 
     if (broken) {
-      group.current.position.y = Math.sin(elapsedTime * 2) / 6
+      group.current.position.y =
+        Math.sin(elapsedTime * 1.5) / 8 - Math.sin(0.1 + elapsedTime * 5) / 23
     }
   })
 
   return (
-    <group ref={group} dispose={null} scale={0.2}>
+    <group ref={group} dispose={null} scale={0.2} name="boat">
       <group name="Scene">
         <group name="Boat_Arm">
           <primitive object={nodes.Bone} />

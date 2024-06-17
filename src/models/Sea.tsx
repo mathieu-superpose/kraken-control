@@ -38,7 +38,7 @@ function Sea() {
 
   useEffect(() => {
     document.body.style.cursor = hovered
-      ? `url("/img/tentacle.png"), auto`
+      ? `url("/img/tentacle-direction.png"), auto`
       : "auto"
   }, [hovered])
 
@@ -64,7 +64,9 @@ function Sea() {
         rotation-x={-Math.PI / 2}
         name="sea"
         onPointerOver={() => setHovered(true)}
+        onPointerEnter={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
+        onPointerMove={() => setHovered(true)}
         material={seaMaterial}
       >
         <planeGeometry args={[30, 6, 4, 4]} />
